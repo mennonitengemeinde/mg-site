@@ -1,0 +1,48 @@
+﻿<div class="nav-container">
+    <div class="text-center pt-1">
+        <img class="img-fluid nav-logo" src="img/mennonitengemeinde-text-round-logo-25.png" alt="Logo">
+    </div>
+
+    <nav class="navbar navbar-expand-lg navbar-light d-flex justify-content-end">
+        <button class="navbar-toggler" @onclick="ToggleNavMenu">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="@NavMenuCssClass navbar-collapse" @onclick="ToggleNavMenu">
+            <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+                <li class="nav-item">
+                    <NavLink class="nav-link" href="" Match="NavLinkMatch.All">
+                        Home
+                    </NavLink>
+                </li>
+                <li class="nav-item">
+                    <NavLink class="nav-link" href="counter">
+                        Events
+                    </NavLink>
+                </li>
+                <li class="nav-item">
+                    <NavLink class="nav-link" href="fetchdata">
+                        Sermons
+                    </NavLink>
+                </li>
+                <li class="nav-item">
+                    <NavLink class="nav-link" href="fetchdata">
+                        Live
+                    </NavLink>
+                </li>
+            </ul>
+        </div>
+    </nav>
+</div>
+
+
+@code {
+    private bool collapseNavMenu = true;
+
+    private string NavMenuCssClass => collapseNavMenu ? "collapse" : null;
+
+    private void ToggleNavMenu()
+    {
+        collapseNavMenu = !collapseNavMenu;
+    }
+}
