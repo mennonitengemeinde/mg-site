@@ -1,0 +1,53 @@
+﻿@page "/admin/events"
+
+@inject IDbContextFactory<MgDbContext> DbFactory
+
+<div class="container py-4">
+    <h3>Manage Events</h3>
+
+    <AdminMainNavTabs></AdminMainNavTabs>
+
+    @if (events == null)
+    {
+        <p><em>Loading...</em></p>
+    }
+    else
+    {
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Title</th>
+                    <th>Start</th>
+                    <th>In Person</th>
+                    <th>Livestream</th>
+                    <th>Attendance Limit</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in events)
+                {
+                    <tr>
+                        <td>@item.Title</td>
+                        <td>@item.Start</td>
+                        <td>@item.InPerson</td>
+                        <td>@item.LiveStream</td>
+                        <td>@item.AttendanceLimit</td>
+                        <td></td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+</div>
+
+@code {
+    private List<Event> events;
+
+    protected override async Task OnInitializedAsync()
+    {
+        using var context = DbFactory.CreateDbContext();
+
+        events = await context.Events.ToListAsync();
+    }
+}
