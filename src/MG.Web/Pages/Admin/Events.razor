@@ -1,11 +1,16 @@
 ﻿@page "/admin/events"
 
 @inject IDbContextFactory<MgDbContext> DbFactory
+@inject TimeZoneService TimeZoneService 
 
 <div class="container py-4">
     <h3>Manage Events</h3>
 
     <AdminMainNavTabs></AdminMainNavTabs>
+
+    <div class="py-3">
+        <button class="btn btn-primary" @onclick="onAdd">Add</button>
+    </div>
 
     @if (events == null)
     {
@@ -41,13 +46,55 @@
     }
 </div>
 
+<div class="modal @modalHidden" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Modal title</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>Modal body text goes here.</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Save changes</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 @code {
     private List<Event> events;
+    private string modalHidden = "show";
 
-    protected override async Task OnInitializedAsync()
+    protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         using var context = DbFactory.CreateDbContext();
 
-        events = await context.Events.ToListAsync();
+        var localEvents = await context.Events.ToListAsync();
+
+        foreach (var item in localEvents)
+        {
+            item.Start = (await TimeZoneService.GetLocalDateTime(item.Start)).DateTime;
+        }
+
+        events = localEvents;
+
+        StateHasChanged();
+    }
+
+    private void onAdd()
+    {
+        if (modalHidden == "hidden")
+        {
+            modalHidden = "";
+        }
+        else
+        {
+            modalHidden = "hidden";
+        }
     }
 }
