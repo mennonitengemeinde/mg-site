@@ -1,6 +1,6 @@
 ﻿@page "/admin/events"
 
-@inject IDbContextFactory<MgDbContext> DbFactory
+@inject IDbContextFactory<MgDbContext> contextFactory
 
 <div class="container py-4">
     <h3>Manage Events</h3>
@@ -46,7 +46,7 @@
 
     protected override async Task OnInitializedAsync()
     {
-        using var context = DbFactory.CreateDbContext();
+        using var context = contextFactory.CreateDbContext();
 
         events = await context.Events.ToListAsync();
     }

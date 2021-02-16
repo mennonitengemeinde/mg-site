@@ -1,27 +1,26 @@
-﻿using System;
+﻿using MG.Data.Enums;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Text;
 
-namespace MG.Data.Entities
+namespace MG.Data.Dtos.Church
 {
-    public class Church
+    public class ChurchCreateDto
     {
-        public Guid Id { get; set; }
         [Required]
+        [MinLength(3)]
         public string Name { get; set; }
+        
         public string StreetAddress { get; set; }
+        
         public string City { get; set; }
+        
         public string Province { get; set; }
-        public int Country { get; set; }
+        
+        [Required]
+        public Country Country { get; set; }
+        
         public string MixlrUrl { get; set; }
-
-        public string Slug
-        {
-            get
-            {
-                return Name.Replace(" ", "-").ToLower();
-            }
-        }
     }
 }

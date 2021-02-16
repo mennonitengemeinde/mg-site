@@ -1,0 +1,51 @@
+﻿@page "/admin/churches"
+
+@inject IDbContextFactory<MgDbContext> contextFactory
+
+<div class="container py-4">
+    <h3>Churches</h3>
+
+    <AdminMainNavTabs></AdminMainNavTabs>
+
+    <NavLink href="admin/churches/add">Add Church</NavLink>
+
+    @if (churches == null)
+    {
+        <p><em>Loading...</em></p>
+    }
+    else
+    {
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Slug</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var church in churches)
+                {
+                    <tr>
+                        <td>@church.Id</td>
+                        <td>@church.Name</td>
+                        <td>@church.Slug</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+</div>
+
+@code {
+    private List<Church> churches;
+
+    protected override async Task OnInitializedAsync()
+    {
+        var context = contextFactory.CreateDbContext();
+
+        churches = await context.Churches.ToListAsync();
+
+        await base.OnInitializedAsync();
+    }
+}

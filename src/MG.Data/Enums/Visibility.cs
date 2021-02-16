@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace MG.Common.Enums
+namespace MG.Data.Enums
 {
     public enum Visibility
     {

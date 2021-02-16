@@ -1,0 +1,45 @@
+﻿@page "/admin/churches/add" 
+
+@using MG.Data.Dtos.Church
+@using MG.Data.Enums
+@inject IDbContextFactory<MgDbContext> contextFactory
+
+<div class="container py-4">
+    <h3>AddChurch</h3>
+
+    <AdminMainNavTabs></AdminMainNavTabs>
+
+    <EditForm Model="@newChurch" OnValidSubmit="@HandleValidSubmit">
+        <DataAnnotationsValidator />
+        <ValidationSummary />
+
+        <InputText id="name" @bind-Value="newChurch.Name" />
+        
+        <InputText id="streetAddress" @bind-Value="newChurch.StreetAddress" />
+        
+        <InputText id="city" @bind-Value="newChurch.City" />
+        
+        <InputText id="province" @bind-Value="newChurch.Province" />
+        
+        <InputSelect id="country" @bind-Value="newChurch.Country">
+            @foreach (var c in Enum.GetValues(typeof(Country)))
+            {
+                <option value="@c">@c</option>
+            }
+        </InputSelect>
+        
+        <InputText id="mixlrUrl" @bind-Value="newChurch.MixlrUrl" />
+
+        <button type="submit">Submit</button>
+    </EditForm>
+</div>
+
+
+@code {
+    private ChurchCreateDto newChurch = new ChurchCreateDto();
+
+    private void HandleValidSubmit()
+    {
+
+    }
+}

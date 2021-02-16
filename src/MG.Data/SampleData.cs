@@ -5,7 +5,7 @@ using System.Text;
 
 using Microsoft.EntityFrameworkCore;
 
-using MG.Common.Enums;
+using MG.Data.Enums;
 using MG.Data.Entities;
 
 namespace MG.Data
