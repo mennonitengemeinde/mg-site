@@ -14,6 +14,7 @@ using Microsoft.Extensions.Hosting;
 
 using MG.Data;
 using MG.Web.Data;
+using MG.Web.Services;
 
 namespace MG.Web
 {
@@ -37,6 +38,8 @@ namespace MG.Web
             // Recommended approach is to create DbContexts in Blazor Server-Side using a DbContextFactory
             services.AddDbContextFactory<MgDbContext>(options =>
                 options.UseNpgsql(Configuration.GetConnectionString("MgDb"), p => p.MigrationsAssembly("MG.Data")));
+
+            services.AddScoped<TimeZoneService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
